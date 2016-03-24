@@ -40,19 +40,29 @@ s_dpt = (('ID','NAME','RegionID'),
          (50,'Administration',1))
 
 
-#1.select * from s_dept;
+print '1.select * from s_dept\n', [[i[:]] for i in s_dpt[1::]]
 
-#2.select last_name, first_name, title, salary from s_emp;
+print '2.select last_name, first_name, title, salary from s_emp\n' , [[i[1], i[2],i[6],i[7]] for i in s_emp[1::]]
 
-#3.select last_name, first_name, title, salary from s_emp where salary > 1500 and dept_id > 40;
+print '3.select last_name, first_name, title, salary from s_emp where salary > 1500 and dept_id > 40\n', \
+    [[i[1], i[2],i[6],i[7]] for i in s_emp[1::] if i[7] > 1500 and i[9] >40]
 
-# 4.select last_name, first_name, title, salary from s_emp where salary > 1500 and dept_id > 40 order by last_name;
+print '4.select last_name, first_name, title, salary from s_emp where salary > 1500 and dept_id > 40 order by last_name\n', \
+    sorted([[i[1], i[2],i[6],i[7]] for i in s_emp[1::] if i[7] > 1500 and i[9] >40], key = lambda x: x[0])
 
-#5.select last_name, first_name, title, salary from s_emp where salary > 1500 and dept_id > 40 order by salary desc;
 
-#6.select last_name, first_name, title, salary, name from s_emp e join s_dept d on(e.dept_id = d.id);
+print '5.select last_name, first_name, title, salary from s_emp where salary > 1500 and dept_id > 40 order by salary desc\n', \
+    sorted([[i[1], i[2],i[6],i[7]] for i in s_emp[1::] if i[7] > 1500 and i[9] >40], key = lambda x: int(x[3]), reverse=True)
 
-# 7.select dept_id, avg(salary) from s_emp group by dept_id order by dept_id;
+print '6.select last_name, first_name, title, salary, name from s_emp e join s_dept d on(e.dept_id = d.id)\n', \
+    [[i[1], i[2],i[6],i[7], j[1]] for i in s_emp[1::] for j in s_dpt[1::] if i[9] == j[0] ]
 
-# 8.select dept_id, avg(salary) from s_emp group by dept_id having avg(salary) < 1500;
+
+print '7.select dept_id, avg(salary) from s_emp group by dept_id order by dept_id'
+for department in { d[9] for d in s_emp[1::] }: print (lambda deptno, avgSal: [deptno, avgSal])(department, (lambda l: round(sum(l) / len(l), 2))(map(float,[ e[7] for e in s_emp[1::] if e[9] == department ])))
+
+
+print '8.select dept_id, avg(salary) from s_emp group by dept_id having avg(salary) < 1500\n'
+for department in { d[9] for d in s_emp[1::] }: print (lambda deptno, avgSal: [deptno, avgSal]if avgSal < 1500 else '')(department, (lambda l: round(sum(l) / len(l), 2))(map(float,[ e[7] for e in s_emp[1::] if e[9] == department ])))
+
 
