@@ -94,7 +94,7 @@ var list = function() {
     return list;
 };
 
-
+//test case, each iterator call returns the next value in the list
 var l1 = new list();
 l1.cons('x')
 l1.cons('y')
