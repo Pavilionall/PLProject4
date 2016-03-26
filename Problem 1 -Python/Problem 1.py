@@ -59,7 +59,7 @@ print '6.select last_name, first_name, title, salary, name from s_emp e join s_d
 
 
 print '7.select dept_id, avg(salary) from s_emp group by dept_id order by dept_id'
-for department in { d[9] for d in s_emp[1::] }: print (lambda deptno, avgSal: [deptno, avgSal])(department, (lambda l: round(sum(l) / len(l), 2))(map(float,[ e[7] for e in s_emp[1::] if e[9] == department ])))
+for department in sorted({ d[9] for d in s_emp[1::] }): print (lambda dept_id, avgSal: [dept_id, avgSal])(department, (lambda l: round(sum(l) / len(l), 2))(map(float, [ e[7] for e in s_emp[1::] if e[9] == department ])))
 
 
 print '8.select dept_id, avg(salary) from s_emp group by dept_id having avg(salary) < 1500\n'
